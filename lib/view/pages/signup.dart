@@ -2,6 +2,7 @@ import 'package:commy/constants.dart';
 import 'package:commy/view/component/home/custombuttonlogin.dart';
 import 'package:commy/view/component/home/custombuttonsignup.dart';
 import 'package:commy/view/component/home/customtextfield.dart';
+import 'package:commy/view/pages/speachtotext.dart';
 import 'package:flutter/material.dart';
 
 class Signup extends StatelessWidget {

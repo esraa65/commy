@@ -1,6 +1,7 @@
 import 'package:commy/constants.dart';
 import 'package:commy/view/component/home/custombuttonlogin.dart';
 import 'package:commy/view/component/home/custombuttonsignup.dart';
+import 'package:commy/view/pages/speachtotext.dart';
 import 'package:flutter/material.dart';
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -45,7 +46,7 @@ class WelcomePage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(14.0),
-                    child: CustombuttonLogin('Login', context),
+                    child: CustombuttonLogin('Login', context,),
                   ),
                   Row(mainAxisAlignment: MainAxisAlignment.center,
                     children: [

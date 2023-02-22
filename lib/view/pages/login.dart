@@ -1,6 +1,7 @@
 import 'package:commy/constants.dart';
 import 'package:commy/view/component/home/custombuttonlogin.dart';
 import 'package:commy/view/component/home/custombuttonsignup.dart';
+import 'package:commy/view/pages/speachtotext.dart';
 import 'package:flutter/material.dart';
 import 'package:commy/view/component/home/customtextfield.dart';
 class Login extends StatelessWidget {
@@ -25,8 +26,7 @@ class Login extends StatelessWidget {
                     color: Constants.background,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(100),
-                      // bottomRight: Radius.circular(50),
-                      // topLeft: Radius.circular(50),
+
                       topRight: Radius.circular(100),
                     ),
                   ),
@@ -49,7 +49,8 @@ class Login extends StatelessWidget {
 
                         Padding(
                           padding: const EdgeInsets.all(11.0),
-                          child: Customtextform('E-Mail',icon: Icon(Icons.email,color: Constants.iconcolor,)),
+                          child: Customtextform('E-Mail',
+                              icon: Icon(Icons.email,color: Constants.iconcolor)),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(11.0),
@@ -70,7 +71,7 @@ class Login extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(14.0),
-                          child: CustombuttonLogin('Login', context),
+                          child: CustombuttonLogin('Login', context)
                         ),
 
                         Row(mainAxisAlignment: MainAxisAlignment.center,

@@ -1,10 +1,11 @@
 import 'package:commy/constants.dart';
 import 'package:flutter/material.dart';
 
-Widget Customtextform(String word, {Icon? icon}) {
+Widget Customtextform(String word, {Icon? icon,TextEditingController ?textCt,validator }) {
   return Container(
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
     child: TextFormField(
+      controller: textCt,
       decoration: InputDecoration(
           suffixIcon: icon ?? null,
           hintText: word,
