@@ -1,4 +1,5 @@
 import 'package:commy/view/pages/speachtotext.dart';
+import 'package:commy/view/pages/splashscreen.dart';
 import 'package:commy/view/pages/welcomepage.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: WelcomePage(),
+      home: SplashScreen(),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:commy/constants.dart';
 import 'package:commy/view/pages/signup.dart';
+import 'package:commy/view/pages/speachtotext.dart';
 import 'package:flutter/material.dart';
 Widget Custombuttonsignup(String text,BuildContext context){
   Size size=MediaQuery.of(context).size;

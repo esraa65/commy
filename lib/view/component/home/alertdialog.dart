@@ -1,13 +1,19 @@
 import 'package:commy/constants.dart';
 import 'package:commy/view/pages/setting.dart';
 import 'package:commy/view/pages/speachtotext.dart';
+import 'package:commy/view/pages/welcomepage.dart';
 import 'package:flutter/material.dart';
 
-Widget AlertdialogFun({required BuildContext context, required String text}) {
+Widget AlertdialogFun({required BuildContext context, required String text,Icon?icon}) {
   return InkWell(
-      child: Text(
-        text,
-        style: TextStyle(fontSize: 24, color: Constants.textcolor),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            text,
+            style: TextStyle(fontSize: 24, color: Constants.textcolor),
+          ),
+          Icon(Icons.arrow_drop_down,color: Constants.iconcolor,)
+        ],
       ),
       onTap: () {
         showDialog(
@@ -29,7 +35,7 @@ Widget AlertdialogFun({required BuildContext context, required String text}) {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return SpeechScreen();
+                          return WelcomePage();
                         },
                       ));
                     },

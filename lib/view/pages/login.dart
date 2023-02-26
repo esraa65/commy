@@ -4,6 +4,7 @@ import 'package:commy/view/component/home/custombuttonsignup.dart';
 import 'package:commy/view/pages/speachtotext.dart';
 import 'package:flutter/material.dart';
 import 'package:commy/view/component/home/customtextfield.dart';
+
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -26,7 +27,6 @@ class Login extends StatelessWidget {
                     color: Constants.background,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(100),
-
                       topRight: Radius.circular(100),
                     ),
                   ),
@@ -43,53 +43,74 @@ class Login extends StatelessWidget {
                                 fontSize: 39,
                                 fontWeight: FontWeight.bold),
                           ),
-                          
-
                         ),
 
                         Padding(
                           padding: const EdgeInsets.all(11.0),
                           child: Customtextform('E-Mail',
-                              icon: Icon(Icons.email,color: Constants.iconcolor)),
+                              icon:
+                                  Icon(Icons.email, color: Constants.iconcolor),
+                              validator: (value) {
+                            if (value.length == 0) {
+                              return "Email Can not be empty";
+                            }
+                            if (!RegExp(
+                                    "^[a-zA-Z0-9+.-]+@[a-zA-Z0-9+.-]+.[a-z]")
+                                .hasMatch(value)) {
+                              return ("please enter valid email");
+                            } else {
+                              return null;
+                            }
+                          }),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(11.0),
-                          child: Customtextform('password',icon: Icon(Icons.password,color: Constants.iconcolor,)),
+                          child: Customtextform('password',
+                              icon: Icon(
+                                Icons.password,
+                                color: Constants.iconcolor,
+                              )),
                         ),
                         Row(
                           children: [
                             InkWell(
-                              child:
-                              Padding(
+                              child: Padding(
                                 padding: const EdgeInsets.all(16.0),
-                                child: Text('Forgot password?',
-                                  style: TextStyle(color: Constants.textcolor),),
+                                child: Text(
+                                  'Forgot password?',
+                                  style: TextStyle(color: Constants.textcolor),
+                                ),
                               ),
-                              onTap: (){},
+                              onTap: () {},
                             ),
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(14.0),
-                          child: CustombuttonLogin('Login', context)
-                        ),
+                            padding: const EdgeInsets.all(14.0),
+                            child: CustombuttonLogin('Login', context)),
 
-                        Row(mainAxisAlignment: MainAxisAlignment.center,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Divider(
-                                      color: Constants.textcolor, thickness: 2),
-                                )),
-                            Text('OR',style: TextStyle(color: Constants.textcolor,
-                                fontWeight: FontWeight.bold,fontSize: 23),),
+                              padding: const EdgeInsets.all(8.0),
+                              child: Divider(
+                                  color: Constants.textcolor, thickness: 2),
+                            )),
+                            Text(
+                              'OR',
+                              style: TextStyle(
+                                  color: Constants.textcolor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 23),
+                            ),
                             Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Divider(
-                                      color: Constants.textcolor, thickness: 2),
-                                )),
+                              padding: const EdgeInsets.all(8.0),
+                              child: Divider(
+                                  color: Constants.textcolor, thickness: 2),
+                            )),
                           ],
                         ),
                         Padding(
@@ -97,7 +118,6 @@ class Login extends StatelessWidget {
                           child: Custombuttonsignup('Signup', context),
                         ),
 //devtest
-                        
                       ],
                     ),
                   ),

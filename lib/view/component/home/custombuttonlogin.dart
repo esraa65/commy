@@ -1,5 +1,5 @@
 import 'package:commy/constants.dart';
-import 'package:commy/view/pages/login.dart';
+import 'package:commy/view/pages/speachtotext.dart';
 import 'package:flutter/material.dart';
 
 Widget CustombuttonLogin(String text, BuildContext context) {
@@ -16,7 +16,7 @@ Widget CustombuttonLogin(String text, BuildContext context) {
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
-            return Login();
+            return SpeechScreen();
           },
         ));
       },

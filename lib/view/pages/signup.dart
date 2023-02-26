@@ -2,7 +2,6 @@ import 'package:commy/constants.dart';
 import 'package:commy/view/component/home/custombuttonlogin.dart';
 import 'package:commy/view/component/home/custombuttonsignup.dart';
 import 'package:commy/view/component/home/customtextfield.dart';
-import 'package:commy/view/pages/speachtotext.dart';
 import 'package:flutter/material.dart';
 
 class Signup extends StatelessWidget {
@@ -51,7 +50,19 @@ class Signup extends StatelessWidget {
                               icon: Icon(
                                 Icons.email,
                                 color: Constants.iconcolor,
-                              )),
+                              ),
+                          validator:(value){
+                            if(value.length==0){
+                              return "Email Can not be empty";
+                            }if (!RegExp(
+                                "^[a-zA-Z0-9+.-]+@[a-zA-Z0-9+.-]+.[a-z]")
+                                .hasMatch(value)) {
+                              return ("please enter valid email");
+                            } else {
+                              return null;
+                            }
+
+                          } ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(11.0),
@@ -127,3 +138,105 @@ class Signup extends StatelessWidget {
     );
   }
 }
+/*
+    TextFiledWidegt(
+    lable: "name",
+    controller: nameController,
+    type: TextInputType.name,
+    suffixIcon: Icons.perm_identity,
+    validate: (value) {
+    if (value.length == 0) {
+    return "Email cannot be empty ";
+    } else {
+    return null;
+    }
+    }
+    ),
+    const SizedBox(
+    height: 20,
+    ),
+    TextFiledWidegt(
+    lable: "email",
+    controller: emailController,
+    type: TextInputType.emailAddress,
+    // prefix: Icon(Icons.email),
+    suffixIcon: Icons.email,
+    validate: (value) {
+    if (value.length == 0) {
+    return "Email cannot be empty ";
+    }
+    if (!RegExp(
+    "^[a-zA-Z0-9+.-]+@[a-zA-Z0-9+.-]+.[a-z]")
+        .hasMatch(value)) {
+    return ("please enter valid email");
+    } else {
+    return null;
+    }
+    }),
+    const SizedBox(
+    height: 20,
+    ),
+    TextFiledWidegt(
+    lable: "password",
+    type: TextInputType.text,
+    controller: passwordController,
+    // suffixIcon: Cubit.suffix,
+    // isPassword: Cubit.isPassword,
+    suffixPressed: () {
+    // Cubit.changePassword();
+    },
+    ),
+    const SizedBox(
+    height: 10,
+    ),
+    SizedBox(
+    width: w * .5,
+    child: ElevatedButton(
+    onPressed: () async {
+    if (formKey.currentState!.validate()) {
+    // await Cubit.registerByEmailAndPassword(
+    //   emailController.text.trim(),
+    //   passwordController.text,
+    //   nameController.text,
+    // );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+    const SnackBar(
+    content: Text(
+    'Successfully Register.You Can Chat Now'),
+    duration: Duration(seconds: 5),
+    ),
+    );
+    //  Navigator.of(context).pop();
+    // Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) =>
+    //           const HomeScreen(),
+    //     ));
+    // await Cubit.getAllUser();
+    }
+    },
+    child: Text("Register"),
+    style: ElevatedButton.styleFrom(
+    //primary: kSecondaryColor,
+    shape: RoundedRectangleBorder(
+    borderRadius:
+    BorderRadius.circular(30)),
+    ),
+    ),
+    ),
+    const SizedBox(
+    height: 20,
+    ),
+    Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+    GoogleAuthButton(
+    onPressed: () async {
+    await ChatCubit.get(context).SignInByGoogle();
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen(),));
+    },
+    style: const AuthButtonStyle(
+    buttonType: AuthButtonType.icon,
+    iconType: AuthIconType*/
