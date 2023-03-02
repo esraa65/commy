@@ -1,7 +1,6 @@
 import 'package:commy/constants.dart';
 import 'package:commy/view/pages/setting.dart';
-import 'package:commy/view/pages/speachtotext.dart';
-import 'package:commy/view/pages/welcomepage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 Widget AlertdialogFun({required BuildContext context, required String text,Icon?icon}) {
@@ -30,14 +29,11 @@ Widget AlertdialogFun({required BuildContext context, required String text,Icon?
                   'We hate to see you leave...',
                   style: TextStyle(color: Constants.textcolor, fontSize: 19),
                 ),
+
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return WelcomePage();
-                        },
-                      ));
+                      FirebaseAuth.instance.signOut();
                     },
                     child: Text(
                       'Sure',

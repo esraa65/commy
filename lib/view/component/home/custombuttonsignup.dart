@@ -1,8 +1,6 @@
 import 'package:commy/constants.dart';
-import 'package:commy/view/pages/signup.dart';
-import 'package:commy/view/pages/speachtotext.dart';
 import 'package:flutter/material.dart';
-Widget Custombuttonsignup(String text,BuildContext context){
+Widget Custombuttonsignup(String text,BuildContext context,{Function ?function}){
   Size size=MediaQuery.of(context).size;
 
   return Padding(
@@ -14,11 +12,7 @@ Widget Custombuttonsignup(String text,BuildContext context){
           backgroundColor: Constants.background),
       autofocus: true,
       onPressed: (){
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) {
-            return Signup();
-          },
-        ));
+       function;
       },
       child: Container(
         width: size.width*0.6,

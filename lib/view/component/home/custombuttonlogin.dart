@@ -1,8 +1,7 @@
 import 'package:commy/constants.dart';
-import 'package:commy/view/pages/speachtotext.dart';
 import 'package:flutter/material.dart';
 
-Widget CustombuttonLogin(String text, BuildContext context) {
+Widget CustombuttonLogin(String text, BuildContext context,{Function ?function}) {
   Size size = MediaQuery.of(context).size;
 
   return Padding(
@@ -14,11 +13,7 @@ Widget CustombuttonLogin(String text, BuildContext context) {
           backgroundColor: Constants.deafultcolor),
       autofocus: true,
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) {
-            return SpeechScreen();
-          },
-        ));
+       function;
       },
       child: Container(
         width: size.width * 0.6,

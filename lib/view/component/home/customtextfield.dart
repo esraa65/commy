@@ -1,7 +1,7 @@
 import 'package:commy/constants.dart';
 import 'package:flutter/material.dart';
 
-Widget Customtextform(String word, {Icon? icon,TextEditingController ?textCt,validator }) {
+Widget Customtextform(String word, {Icon? icon,TextEditingController ?textCt,validator, bool ?obscureText  }) {
   return Container(
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
     child: TextFormField(

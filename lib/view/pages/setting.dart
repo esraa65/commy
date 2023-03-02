@@ -1,6 +1,7 @@
 import 'package:commy/constants.dart';
 import 'package:commy/view/component/home/alertdialog.dart';
 import 'package:commy/view/pages/speachtotext.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Setting extends StatelessWidget {
@@ -41,15 +42,20 @@ class Setting extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
-                  padding: EdgeInsets.all(12),
-                  margin: EdgeInsets.symmetric(vertical: 22),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: Constants.deafultcolor,
-                  ),
-                  child: AlertdialogFun(context: context, text: 'Log Out')),
+              child: Column(
+                children: [
+                  Container(
+                      padding: EdgeInsets.all(12),
+                      margin: EdgeInsets.symmetric(vertical: 22),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        color: Constants.deafultcolor,
+                      ),
+                      child: AlertdialogFun(context: context, text: 'Log Out'),),
+
+                ],
+              ),
             )
           ],
         ),

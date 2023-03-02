@@ -1,4 +1,5 @@
 import 'package:commy/constants.dart';
+import 'package:commy/view/pages/auth.dart';
 import 'package:commy/view/pages/login.dart';
 import 'package:commy/view/pages/signup.dart';
 import 'package:flutter/material.dart';
