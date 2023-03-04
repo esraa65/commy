@@ -1,7 +1,6 @@
 import 'package:commy/constants.dart';
 import 'package:commy/view/component/home/alertdialog.dart';
 import 'package:commy/view/pages/speachtotext.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Setting extends StatelessWidget {

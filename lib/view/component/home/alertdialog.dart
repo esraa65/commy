@@ -1,5 +1,6 @@
 import 'package:commy/constants.dart';
 import 'package:commy/view/pages/setting.dart';
+import 'package:commy/view/pages/welcomepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -34,6 +35,11 @@ Widget AlertdialogFun({required BuildContext context, required String text,Icon?
                   TextButton(
                     onPressed: () {
                       FirebaseAuth.instance.signOut();
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return WelcomePage();
+                        },
+                      ));
                     },
                     child: Text(
                       'Sure',
