@@ -13,7 +13,7 @@ class _LoginState extends State<Login> {
   final TextEditingController emailcontroller = TextEditingController();
 
   final TextEditingController passwordcontroller = TextEditingController();
-
+  static final formkey =  GlobalKey<FormState>();
 
   Future login() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -38,7 +38,6 @@ class _LoginState extends State<Login> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     Size size = MediaQuery.of(context).size;
-    GlobalKey<FormState> formKey = new GlobalKey<FormState>();
 
     return Scaffold(
       backgroundColor: Constants.deafultcolor,
@@ -46,7 +45,7 @@ class _LoginState extends State<Login> {
         child: Center(
           child: SingleChildScrollView(
             child: Form(
-              key: formKey,
+              key: formkey,
               child: Column(
                 children: [
                   Container(
@@ -87,7 +86,7 @@ class _LoginState extends State<Login> {
                                         return 'Email can not be empty';
                                       }
                                       if (!RegExp(
-                                          "^[a-zA-Z0-9+.-]+@[a-zA-Z0-9+.-]+.[a-z]")
+                                              "^[a-zA-Z0-9+.-]+@[a-zA-Z0-9+.-]+.[a-z]")
                                           .hasMatch(value)) {
                                         return ("please enter valid email");
                                       } else {
@@ -104,12 +103,14 @@ class _LoginState extends State<Login> {
                                           borderSide: BorderSide(
                                               color: Constants.deafultcolor,
                                               width: 2.0),
-                                          borderRadius: BorderRadius.circular(15.0),
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
                                               color: Colors.grey, width: 2.0),
-                                          borderRadius: BorderRadius.circular(15.0),
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
                                         )),
                                   ),
                                 )),
@@ -122,17 +123,13 @@ class _LoginState extends State<Login> {
                                   autofocus: true,
                                   obscureText: true,
                                   controller: passwordcontroller,
-                                  validator: (PassCurrentValue){
-                                    RegExp regex=RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-                                    var passNonNullValue=PassCurrentValue??"";
-                                    if(passNonNullValue.isEmpty){
+                                  validator: (PassCurrentValue) {
+                                    var passNonNullValue =
+                                        PassCurrentValue ?? "";
+                                    if (passNonNullValue.isEmpty) {
                                       return ("Password is required");
-                                    }
-                                    else if(passNonNullValue.length<6){
+                                    } else if (passNonNullValue.length < 6) {
                                       return ("Password Must be more than 5 characters");
-                                    }
-                                    else if(!regex.hasMatch(passNonNullValue)){
-                                      return ("Password should contain upper,lower,digit and Special character ");
                                     }
                                     return null;
                                   },
@@ -146,12 +143,14 @@ class _LoginState extends State<Login> {
                                         borderSide: BorderSide(
                                             color: Constants.deafultcolor,
                                             width: 2.0),
-                                        borderRadius: BorderRadius.circular(15.0),
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(
                                             color: Colors.grey, width: 2.0),
-                                        borderRadius: BorderRadius.circular(15.0),
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
                                       )),
                                 ),
                               ),
@@ -163,7 +162,8 @@ class _LoginState extends State<Login> {
                                     padding: const EdgeInsets.all(16.0),
                                     child: Text(
                                       'Forgot password?',
-                                      style: TextStyle(color: Constants.textcolor),
+                                      style:
+                                          TextStyle(color: Constants.textcolor),
                                     ),
                                   ),
                                   onTap: () {},
@@ -176,16 +176,18 @@ class _LoginState extends State<Login> {
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30)),
+                                        borderRadius:
+                                            BorderRadius.circular(30)),
                                     backgroundColor: Constants.deafultcolor),
                                 autofocus: true,
                                 onPressed: () {
-                                  login();
-                                  if (formKey.currentState!.validate()) {
+                                  if (formkey.currentState!.validate()) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('Processing Data')),
+                                      const SnackBar(
+                                          content: Text('Processing Data')),
                                     );
                                   }
+                                  login();
                                 },
                                 child: Container(
                                   width: size.width * 0.6,
@@ -193,7 +195,8 @@ class _LoginState extends State<Login> {
                                   child: Center(
                                       child: Text(
                                     'Login',
-                                    style: TextStyle(color: Constants.textcolor),
+                                    style:
+                                        TextStyle(color: Constants.textcolor),
                                   )),
                                 ),
                               ),
@@ -228,7 +231,8 @@ class _LoginState extends State<Login> {
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30)),
+                                        borderRadius:
+                                            BorderRadius.circular(30)),
                                     backgroundColor: Constants.background),
                                 autofocus: true,
                                 onPressed: () {
@@ -244,7 +248,8 @@ class _LoginState extends State<Login> {
                                   child: Center(
                                       child: Text(
                                     "SignUp",
-                                    style: TextStyle(color: Constants.deafultcolor),
+                                    style: TextStyle(
+                                        color: Constants.deafultcolor),
                                   )),
                                 ),
                               ),
