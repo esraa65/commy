@@ -1,6 +1,7 @@
 import 'package:commy/constants.dart';
 import 'package:flutter/material.dart';
-Widget Custombuttonsignup(String text,BuildContext context,{Function ?function}){
+Widget Custombuttonsignup(String text,BuildContext context,  VoidCallback? onPressed
+){
   Size size=MediaQuery.of(context).size;
 
   return Padding(
@@ -9,15 +10,13 @@ Widget Custombuttonsignup(String text,BuildContext context,{Function ?function})
 
       style: ElevatedButton.styleFrom( shape:
       RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          backgroundColor: Constants.background),
+          backgroundColor: Constants.deafultcolor),
       autofocus: true,
-      onPressed: (){
-       function;
-      },
+      onPressed:onPressed,
       child: Container(
         width: size.width*0.6,
         height: size.height*0.06,
-        child: Center(child: Text(text,style: TextStyle(color: Constants.deafultcolor),)),
+        child: Center(child: Text(text,style: TextStyle(color: Constants.textcolor),)),
       ),
     ),
   );

@@ -1,4 +1,6 @@
 import 'package:commy/constants.dart';
+import 'package:commy/view/component/home/custombuttonlogin.dart';
+import 'package:commy/view/component/home/custombuttonsignup.dart';
 import 'package:commy/view/pages/Auth.dart';
 import 'package:commy/view/pages/login.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +18,7 @@ class _SignupState extends State<Signup> {
   final TextEditingController passwordcontroller = TextEditingController();
 
   final TextEditingController repasswordcontroller = TextEditingController();
-  static final formkey=  GlobalKey<FormState>();
+  var formkey=  GlobalKey<FormState>();
 
   final GlobalKey<FlutterPwValidatorState> validatorKey =
       GlobalKey<FlutterPwValidatorState>();
@@ -243,31 +245,16 @@ class _SignupState extends State<Signup> {
                         //signup button
                         Padding(
                           padding: const EdgeInsets.all(18.0),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30)),
-                                backgroundColor: Constants.deafultcolor),
-                            autofocus: true,
-                            onPressed: () {
-                              signupmethod();
-                              if (formkey.currentState!.validate()) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('Processing Data')),
-                                );
-                              }
-                            },
-                            child: Container(
-                              width: size.width * 0.6,
-                              height: size.height * 0.06,
-                              child: Center(
-                                  child: Text(
-                                "Signup",
-                                style: TextStyle(color: Constants.background),
-                              )),
-                            ),
-                          ),
+                          child:
+                          Custombuttonsignup("Signup", context, () {
+                            signupmethod();
+                            if (formkey.currentState!.validate()) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Processing Data')),
+                              );
+                            }
+                          })
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -296,30 +283,14 @@ class _SignupState extends State<Signup> {
                         //login button
                         Padding(
                           padding: const EdgeInsets.all(18.0),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30)),
-                                backgroundColor: Constants.background),
-                            autofocus: true,
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return Login();
-                                },
-                              ));
-                            },
-                            child: Container(
-                              width: size.width * 0.6,
-                              height: size.height * 0.06,
-                              child: Center(
-                                  child: Text(
-                                'Login',
-                                style:
-                                    TextStyle(color: Constants.deafultcolor),
-                              )),
-                            ),
-                          ),
+                          child:
+                          CustombuttonLogin("Login", context, () {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return Login();
+                              },
+                            ));
+                          })
                         ),
                       ],
                     ),

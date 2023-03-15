@@ -1,4 +1,6 @@
 import 'package:commy/constants.dart';
+import 'package:commy/view/component/home/custombuttonlogin.dart';
+import 'package:commy/view/component/home/custombuttonsignup.dart';
 import 'package:commy/view/pages/Auth.dart';
 import 'package:commy/view/pages/signup.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,7 @@ class _LoginState extends State<Login> {
   final TextEditingController emailcontroller = TextEditingController();
 
   final TextEditingController passwordcontroller = TextEditingController();
-  static final formkey =  GlobalKey<FormState>();
+  var  formkey =  GlobalKey<FormState>();
 
   Future login() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -37,7 +39,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-    Size size = MediaQuery.of(context).size;
+   // Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Constants.deafultcolor,
@@ -64,8 +66,8 @@ class _LoginState extends State<Login> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(9.0),
+                            const Padding(
+                              padding: EdgeInsets.all(9.0),
                               child: Text(
                                 'Login',
                                 style: TextStyle(
@@ -76,7 +78,8 @@ class _LoginState extends State<Login> {
                             ),
                             Padding(
                                 padding: const EdgeInsets.all(11.0),
-                                child: Container(
+                                child:
+                                Container(
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12)),
                                   child: TextFormField(
@@ -86,7 +89,7 @@ class _LoginState extends State<Login> {
                                         return 'Email can not be empty';
                                       }
                                       if (!RegExp(
-                                              "^[a-zA-Z0-9+.-]+@[a-zA-Z0-9+.-]+.[a-z]")
+                                          "^[a-zA-Z0-9+.-]+@[a-zA-Z0-9+.-]+.[a-z]")
                                           .hasMatch(value)) {
                                         return ("please enter valid email");
                                       } else {
@@ -94,26 +97,27 @@ class _LoginState extends State<Login> {
                                       }
                                     },
                                     decoration: InputDecoration(
-                                        suffixIcon: Icon(
+                                        suffixIcon: const Icon(
                                           Icons.email,
                                           color: Constants.iconcolor,
                                         ),
                                         hintText: "E-Mail",
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                               color: Constants.deafultcolor,
                                               width: 2.0),
                                           borderRadius:
-                                              BorderRadius.circular(15.0),
+                                          BorderRadius.circular(15.0),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
                                               color: Colors.grey, width: 2.0),
                                           borderRadius:
-                                              BorderRadius.circular(15.0),
+                                          BorderRadius.circular(15.0),
                                         )),
                                   ),
-                                )),
+                                )
+                               ),
                             Padding(
                               padding: const EdgeInsets.all(11.0),
                               child: Container(
@@ -157,56 +161,29 @@ class _LoginState extends State<Login> {
                             ),
                             Row(
                               children: [
-                                InkWell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                      'Forgot password?',
-                                      style:
-                                          TextStyle(color: Constants.textcolor),
-                                    ),
-                                  ),
-                                  onTap: () {},
-                                ),
+                                TextButton(onPressed: (){}, child: const Text('Forgot password?',
+                                  style: TextStyle(fontSize: 16,color: Constants.textcolor),))
                               ],
                             ),
                             // Login button
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
-                                    backgroundColor: Constants.deafultcolor),
-                                autofocus: true,
-                                onPressed: () {
-                                  if (formkey.currentState!.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text('Processing Data')),
-                                    );
-                                  }
-                                  login();
-                                },
-                                child: Container(
-                                  width: size.width * 0.6,
-                                  height: size.height * 0.06,
-                                  child: Center(
-                                      child: Text(
-                                    'Login',
-                                    style:
-                                        TextStyle(color: Constants.textcolor),
-                                  )),
-                                ),
-                              ),
+                              child:CustombuttonLogin("Login", context, () {
+                                if (formkey.currentState!.validate()) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Processing Data')),
+                                  );
+                                }
+                                login();
+                              }),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+                              children: const [
                                 Expanded(
                                     child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.all(8.0),
                                   child: Divider(
                                       color: Constants.textcolor, thickness: 2),
                                 )),
@@ -219,7 +196,7 @@ class _LoginState extends State<Login> {
                                 ),
                                 Expanded(
                                     child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.all(8.0),
                                   child: Divider(
                                       color: Constants.textcolor, thickness: 2),
                                 )),
@@ -228,31 +205,13 @@ class _LoginState extends State<Login> {
                             // Sign Up button
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
-                                    backgroundColor: Constants.background),
-                                autofocus: true,
-                                onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return Signup();
-                                    },
-                                  ));
-                                },
-                                child: Container(
-                                  width: size.width * 0.6,
-                                  height: size.height * 0.06,
-                                  child: Center(
-                                      child: Text(
-                                    "SignUp",
-                                    style: TextStyle(
-                                        color: Constants.deafultcolor),
-                                  )),
-                                ),
-                              ),
+                              child:Custombuttonsignup("Sign up", context, () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return Signup();
+                                  },
+                                ));
+                              })
                             ),
                           ],
                         ),

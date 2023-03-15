@@ -28,10 +28,7 @@ class MyApp extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: <Color>[Constants.deafultcolor, Constants.background]),
-        title: Text(
-          'Commy',
-          style: TextStyle(fontSize: 25, color: Constants.textcolor),
-        ),
+
       ),
     );
   }

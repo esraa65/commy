@@ -1,7 +1,8 @@
 import 'package:commy/constants.dart';
 import 'package:flutter/material.dart';
 
-Widget CustombuttonLogin(String text, BuildContext context,{Function ?function}) {
+Widget CustombuttonLogin(String text, BuildContext context,  VoidCallback? onPressed
+) {
   Size size = MediaQuery.of(context).size;
 
   return Padding(
@@ -10,11 +11,9 @@ Widget CustombuttonLogin(String text, BuildContext context,{Function ?function})
       style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          backgroundColor: Constants.deafultcolor),
+          backgroundColor: Constants.background),
       autofocus: true,
-      onPressed: () {
-       function;
-      },
+     onPressed: onPressed,
       child: Container(
         width: size.width * 0.6,
         height: size.height * 0.06,
