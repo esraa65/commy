@@ -30,7 +30,7 @@ class _SignupState extends State<Signup> {
           password: passwordcontroller.text.trim());
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
-          return Auth();
+          return const Auth();
         },
       ));
     }
@@ -79,8 +79,8 @@ class _SignupState extends State<Signup> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(9.0),
+                        const Padding(
+                          padding: EdgeInsets.all(9.0),
                           child: Text(
                             'SignUp',
                             style: TextStyle(
@@ -109,13 +109,13 @@ class _SignupState extends State<Signup> {
                                 }
                               },
                               decoration: InputDecoration(
-                                  suffixIcon: Icon(
+                                  suffixIcon: const Icon(
                                     Icons.email,
                                     color: Constants.iconcolor,
                                   ),
                                   hintText: "E-mail",
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                         color: Constants.deafultcolor,
                                         width: 2.0),
                                     borderRadius: BorderRadius.circular(15.0),
@@ -148,13 +148,13 @@ class _SignupState extends State<Signup> {
                                   return null;
                                 },
                                 decoration: InputDecoration(
-                                    suffixIcon: Icon(
+                                    suffixIcon: const Icon(
                                       Icons.remove_red_eye_outlined,
                                       color: Constants.iconcolor,
                                     ),
                                     hintText: "password",
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                           color: Constants.deafultcolor,
                                           width: 2.0),
                                       borderRadius:
@@ -187,13 +187,13 @@ class _SignupState extends State<Signup> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                  suffixIcon: Icon(
+                                  suffixIcon: const Icon(
                                     Icons.remove_red_eye_outlined,
                                     color: Constants.iconcolor,
                                   ),
                                   hintText: "Re-enter password",
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                         color: Constants.deafultcolor,
                                         width: 2.0),
                                     borderRadius: BorderRadius.circular(15.0),
@@ -208,7 +208,7 @@ class _SignupState extends State<Signup> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(6.0),
-                          child: new FlutterPwValidator(
+                          child: FlutterPwValidator(
                             defaultColor: Constants.textcolor,
                             successColor: Constants.deafultcolor,
                             failureColor: Constants.textcolor,
@@ -224,12 +224,12 @@ class _SignupState extends State<Signup> {
                             onSuccess: () {
                               print("MATCHED");
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  new SnackBar(
+                                  SnackBar(
                                       backgroundColor: Constants.background,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(36)),
-                                      content: new Text(
+                                      content: const Text(
                                         "Password is matched",
                                         style: TextStyle(
                                             fontSize: 25,
@@ -258,10 +258,10 @@ class _SignupState extends State<Signup> {
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             Expanded(
                                 child: Padding(
-                              padding: const EdgeInsets.all(14.0),
+                              padding: EdgeInsets.all(14.0),
                               child: Divider(
                                   color: Constants.textcolor, thickness: 2),
                             )),
@@ -274,7 +274,7 @@ class _SignupState extends State<Signup> {
                             ),
                             Expanded(
                                 child: Padding(
-                              padding: const EdgeInsets.all(14.0),
+                              padding: EdgeInsets.all(14.0),
                               child: Divider(
                                   color: Constants.textcolor, thickness: 2),
                             )),

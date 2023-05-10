@@ -15,3 +15,5 @@ class Constants {
   //static const alertdialog = Color(0xFFBAE3DD);
 
 }
+String validatorEmail =
+    r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";

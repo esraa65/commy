@@ -6,6 +6,7 @@ import 'package:splash_view/splash_view.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
   runApp(MyApp());
 }
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
           animationDuration: Duration(seconds: 4),
           curve: Curves.easeInOut,
         ),
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: <Color>[Constants.deafultcolor, Constants.background]),

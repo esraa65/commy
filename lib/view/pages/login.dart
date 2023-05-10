@@ -2,9 +2,11 @@ import 'package:commy/constants.dart';
 import 'package:commy/view/component/home/custombuttonlogin.dart';
 import 'package:commy/view/component/home/custombuttonsignup.dart';
 import 'package:commy/view/pages/Auth.dart';
+import 'package:commy/view/pages/forgetpass/forgot_pass.dart';
 import 'package:commy/view/pages/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -15,7 +17,7 @@ class _LoginState extends State<Login> {
   final TextEditingController emailcontroller = TextEditingController();
 
   final TextEditingController passwordcontroller = TextEditingController();
-  var  formkey =  GlobalKey<FormState>();
+  var formkey = GlobalKey<FormState>();
 
   Future login() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -39,7 +41,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-   // Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Constants.deafultcolor,
@@ -78,18 +80,18 @@ class _LoginState extends State<Login> {
                             ),
                             Padding(
                                 padding: const EdgeInsets.all(11.0),
-                                child:
-                                Container(
+                                child: Container(
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12)),
                                   child: TextFormField(
                                     controller: emailcontroller,
+                                    keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Email can not be empty';
                                       }
                                       if (!RegExp(
-                                          "^[a-zA-Z0-9+.-]+@[a-zA-Z0-9+.-]+.[a-z]")
+                                              "^[a-zA-Z0-9+.-]+@[a-zA-Z0-9+.-]+.[a-z]")
                                           .hasMatch(value)) {
                                         return ("please enter valid email");
                                       } else {
@@ -107,17 +109,16 @@ class _LoginState extends State<Login> {
                                               color: Constants.deafultcolor,
                                               width: 2.0),
                                           borderRadius:
-                                          BorderRadius.circular(15.0),
+                                              BorderRadius.circular(15.0),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
                                               color: Colors.grey, width: 2.0),
                                           borderRadius:
-                                          BorderRadius.circular(15.0),
+                                              BorderRadius.circular(15.0),
                                         )),
                                   ),
-                                )
-                               ),
+                                )),
                             Padding(
                               padding: const EdgeInsets.all(11.0),
                               child: Container(
@@ -125,6 +126,7 @@ class _LoginState extends State<Login> {
                                     borderRadius: BorderRadius.circular(12)),
                                 child: TextFormField(
                                   autofocus: true,
+                                  keyboardType: TextInputType.text,
                                   obscureText: true,
                                   controller: passwordcontroller,
                                   validator: (PassCurrentValue) {
@@ -138,13 +140,13 @@ class _LoginState extends State<Login> {
                                     return null;
                                   },
                                   decoration: InputDecoration(
-                                      suffixIcon: Icon(
+                                      suffixIcon: const Icon(
                                         Icons.remove_red_eye_outlined,
                                         color: Constants.iconcolor,
                                       ),
                                       hintText: "password",
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                             color: Constants.deafultcolor,
                                             width: 2.0),
                                         borderRadius:
@@ -161,21 +163,40 @@ class _LoginState extends State<Login> {
                             ),
                             Row(
                               children: [
-                                TextButton(onPressed: (){}, child: const Text('Forgot password?',
-                                  style: TextStyle(fontSize: 16,color: Constants.textcolor),))
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return ForgotPassword();
+                                        },
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Forgot password?',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Constants.textcolor),
+                                    ))
                               ],
                             ),
                             // Login button
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child:CustombuttonLogin("Login", context, () {
+                              child:
+                                  CustombuttonLogin("Login", context, () async {
                                 if (formkey.currentState!.validate()) {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.setString(
+                                      'email', emailcontroller.toString());
+                                  // print(
+                                  //     " login pagde${prefs.getString("email")}");
+                                  login();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content: Text('Processing Data')),
                                   );
                                 }
-                                login();
                               }),
                             ),
                             Row(
@@ -204,15 +225,15 @@ class _LoginState extends State<Login> {
                             ),
                             // Sign Up button
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child:Custombuttonsignup("Sign up", context, () {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return Signup();
-                                  },
-                                ));
-                              })
-                            ),
+                                padding: const EdgeInsets.all(8.0),
+                                child:
+                                    Custombuttonsignup("Sign up", context, () {
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return Signup();
+                                    },
+                                  ));
+                                })),
                           ],
                         ),
                       ),
