@@ -1,4 +1,5 @@
 import 'package:commy/constants.dart';
+import 'package:commy/test_page.dart';
 import 'package:commy/view/pages/welcomepage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashView(
+      home:
+      SplashView(
         done: Done(
           WelcomePage(),
           animationDuration: Duration(seconds: 4),

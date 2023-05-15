@@ -1,12 +1,11 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:commy/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:commy/view/pages/setting.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
-import 'package:firebase_storage/firebase_storage.dart';
-import 'dart:io';
-
 import 'package:video_player/video_player.dart';
 
 class SpeechScreen extends StatefulWidget {
@@ -16,25 +15,21 @@ class SpeechScreen extends StatefulWidget {
 
 class _SpeechScreenState extends State<SpeechScreen> {
   late stt.SpeechToText _speech;
-  TextEditingController textcontroller = TextEditingController();
   bool _isListening = false;
   String _text = 'press the microphone to start speaking';
   double _confidence = 1.0;
-  late VideoPlayerController controller;
-  String? urlcontroller;
+ // String? urlcontroller;
+  int _currentVideoIndex = 0;
+  late VideoPlayerController _controller;
+  List<String> _urls = [];
+  final _data = ["hi", "thank you", "hello", "finish", "good"];
 
   @override
   void initState() {
     super.initState();
-    controller = VideoPlayerController.network("");
+    _controller = VideoPlayerController.network("");
 
     _speech = stt.SpeechToText();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -99,43 +94,26 @@ class _SpeechScreenState extends State<SpeechScreen> {
         child: Column(
           children: [
             Container(
-              color: Colors.transparent,
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height / 4,
-              child: InkWell(
-                onTap: () {
-                  if (controller.value.isPlaying) {
-                    controller.pause();
-                  } else {
-                    controller.play();
-                  }
-                },
-                child: controller == VideoPlayerController.network("")
-                    ? const CircularProgressIndicator(
-                        color: Constants.deafultcolor,
-                      )
-                    : AspectRatio(
-                        aspectRatio: controller.value.aspectRatio,
-                        child: VideoPlayer(controller),
-                      ),
-              ),
-            ),
-            Container(
                 padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
-                child: Text(textcontroller.text,
+                child: Text(_text,
                     style: const TextStyle(
                       fontSize: 32.0,
                       color: Constants.textcolor,
                       fontWeight: FontWeight.w400,
-                    ))
-
+                    ))),
+            Container(
+              color: Colors.transparent,
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height / 4,
+              child: Center(
+                child: _controller == VideoPlayerController.network("")
+                    ? CircularProgressIndicator()
+                    : AspectRatio(
+                        aspectRatio: _controller.value.aspectRatio,
+                        child: Center(child: VideoPlayer(_controller)),
+                      ),
+              ),
             ),
-
-            SizedBox(
-                width: MediaQuery.of(context).size.width / 1.5,
-                child: TextFormField(
-                  controller: textcontroller,
-                )),
             Container(
               color: Colors.transparent,
               width: 300,
@@ -143,9 +121,8 @@ class _SpeechScreenState extends State<SpeechScreen> {
               child: TextButton(
                   onPressed: () {
                     // Get data from docs and convert map to List
-
+                    _urls.clear();
                     getDatafromFirebase();
-                    print(" text controller ${textcontroller.text}");
                   },
                   child: const Text("Click here to see video")),
             ),
@@ -154,31 +131,6 @@ class _SpeechScreenState extends State<SpeechScreen> {
       ),
     );
   }
-
-  Future getDatafromFirebase() async {
-    await FirebaseFirestore.instance
-        .collection('words')
-        .doc("${textcontroller.text}")
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      urlcontroller = documentSnapshot.data().toString();
-      urlcontroller = urlcontroller?.substring(7, urlcontroller!.length - 1);
-      print(urlcontroller);
-      if (documentSnapshot.exists) {
-        print('Document data: ${documentSnapshot.data()}');
-        controller = VideoPlayerController.network(urlcontroller!);
-        controller.addListener(() {
-          setState(() {});
-        });
-        controller.setLooping(true);
-        controller.initialize().then((_) => setState(() {}));
-        controller.play();
-      } else {
-        print('Document does not exist on the database');
-      }
-    });
-  }
-
 
   void _listen() async {
     if (!_isListening) {
@@ -190,7 +142,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
         setState(() => _isListening = true);
         _speech.listen(
           onResult: (val) => setState(() {
-            textcontroller = val.recognizedWords as TextEditingController;
+            _text = val.recognizedWords;
             if (val.hasConfidenceRating && val.confidence > 0) {
               _confidence = val.confidence;
             }
@@ -200,6 +152,63 @@ class _SpeechScreenState extends State<SpeechScreen> {
     } else {
       setState(() => _isListening = false);
       _speech.stop();
+    }
+  }
+
+  void getDatafromFirebase() async {
+    for (int i = 0; i < _data.length; i++) {
+      DocumentReference<Map<String, dynamic>> documentRef =
+          //link:,https:
+          FirebaseFirestore.instance
+              .collection('words') // Replace with your collection name
+              .doc(_data[i]); // Replace with your document ID
+
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await documentRef.get();
+      //link:,https:
+
+      if (snapshot.exists) {
+        // Access the document data
+        String value = snapshot.get("link");
+        //https
+        _urls.add(value);
+      } else {
+        _urls.add("not found");
+        print("Document not available");
+      }
+
+      print(_urls);
+    }
+    Timer(Duration(seconds: 3), () {
+      _controller = VideoPlayerController.network(_urls[_currentVideoIndex])
+        ..initialize().then((_) {
+          setState(() {
+            _controller.play();
+          });
+        });
+
+      _controller.addListener(_videoPlayerListener);
+    });
+
+    print("$_urls \n");
+  }
+
+  void _videoPlayerListener() {
+    if (_controller.value.position >= _controller.value.duration) {
+      setState(() {
+        if (_currentVideoIndex < _urls.length - 1) {
+          _currentVideoIndex++;
+          _controller = VideoPlayerController.network(_urls[_currentVideoIndex])
+            ..initialize().then((_) {
+              setState(() {
+                _controller.play();
+              });
+            });
+          _controller.addListener(_videoPlayerListener);
+        } else {
+          print("Last video reached");
+          // Last video reached, do something (e.g., navigate to another screen)
+        }
+      });
     }
   }
 }
