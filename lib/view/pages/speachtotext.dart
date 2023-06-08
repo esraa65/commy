@@ -22,7 +22,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
   int _currentVideoIndex = 0;
   late VideoPlayerController _controller;
   List<String> _urls = [];
-  final _data = ["hi", "thank you", "hello", "finish", "good"];
+  final _data = ["hi", "thank you", "finish", "good"];
 
   @override
   void initState() {
@@ -156,20 +156,16 @@ class _SpeechScreenState extends State<SpeechScreen> {
   }
 
   void getDatafromFirebase() async {
+    _urls.clear();
+
     for (int i = 0; i < _data.length; i++) {
       DocumentReference<Map<String, dynamic>> documentRef =
-          //link:,https:
-          FirebaseFirestore.instance
-              .collection('words') // Replace with your collection name
-              .doc(_data[i]); // Replace with your document ID
+      FirebaseFirestore.instance.collection('words').doc(_data[i]);
 
       DocumentSnapshot<Map<String, dynamic>> snapshot = await documentRef.get();
-      //link:,https:
 
       if (snapshot.exists) {
-        // Access the document data
         String value = snapshot.get("link");
-        //https
         _urls.add(value);
       } else {
         _urls.add("not found");
@@ -178,31 +174,37 @@ class _SpeechScreenState extends State<SpeechScreen> {
 
       print(_urls);
     }
-    Timer(Duration(seconds: 3), () {
-      _controller = VideoPlayerController.network(_urls[_currentVideoIndex])
-        ..initialize().then((_) {
-          setState(() {
-            _controller.play();
-          });
+
+    setState(() {
+      _currentVideoIndex = 0;
+      _controller.dispose();
+      _controller = VideoPlayerController.network(_urls[_currentVideoIndex]);
+
+      _controller.initialize().then((_) {
+        setState(() {
+          _controller.play();
         });
+      });
 
       _controller.addListener(_videoPlayerListener);
     });
-
-    print("$_urls \n");
   }
+
 
   void _videoPlayerListener() {
     if (_controller.value.position >= _controller.value.duration) {
       setState(() {
         if (_currentVideoIndex < _urls.length - 1) {
           _currentVideoIndex++;
-          _controller = VideoPlayerController.network(_urls[_currentVideoIndex])
-            ..initialize().then((_) {
-              setState(() {
-                _controller.play();
-              });
+          _controller.dispose();
+          _controller = VideoPlayerController.network(_urls[_currentVideoIndex]);
+
+          _controller.initialize().then((_) {
+            setState(() {
+              _controller.play();
             });
+          });
+
           _controller.addListener(_videoPlayerListener);
         } else {
           print("Last video reached");
@@ -211,4 +213,62 @@ class _SpeechScreenState extends State<SpeechScreen> {
       });
     }
   }
+
+
+  // void getDatafromFirebase() async {
+  //   for (int i = 0; i < _data.length; i++) {
+  //     DocumentReference<Map<String, dynamic>> documentRef =
+  //         //link:,https:
+  //         FirebaseFirestore.instance
+  //             .collection('words') // Replace with your collection name
+  //             .doc(_data[i]); // Replace with your document ID
+  //
+  //     DocumentSnapshot<Map<String, dynamic>> snapshot = await documentRef.get();
+  //     //link:,https:
+  //
+  //     if (snapshot.exists) {
+  //       // Access the document data
+  //       String value = snapshot.get("link");
+  //       //https
+  //       _urls.add(value);
+  //     } else {
+  //       _urls.add("not found");
+  //       print("Document not available");
+  //     }
+  //
+  //     print(_urls);
+  //   }
+  //   Timer(Duration(seconds: 3), () {
+  //     _controller = VideoPlayerController.network(_urls[_currentVideoIndex])
+  //       ..initialize().then((_) {
+  //         setState(() {
+  //           _controller.play();
+  //         });
+  //       });
+  //
+  //     _controller.addListener(_videoPlayerListener);
+  //   });
+  //
+  //   print("$_urls \n");
+  // }
+
+  // void _videoPlayerListener() {
+  //   if (_controller.value.position >= _controller.value.duration) {
+  //     setState(() {
+  //       if (_currentVideoIndex < _urls.length - 1) {
+  //         _currentVideoIndex++;
+  //         _controller = VideoPlayerController.network(_urls[_currentVideoIndex])
+  //           ..initialize().then((_) {
+  //             setState(() {
+  //               _controller.play();
+  //             });
+  //           });
+  //         _controller.addListener(_videoPlayerListener);
+  //       } else {
+  //         print("Last video reached");
+  //         // Last video reached, do something (e.g., navigate to another screen)
+  //       }
+  //     });
+  //   }
+  // }
 }
