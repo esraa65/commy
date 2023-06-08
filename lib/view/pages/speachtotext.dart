@@ -18,7 +18,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
   bool _isListening = false;
   String _text = 'press the microphone to start speaking';
   double _confidence = 1.0;
- // String? urlcontroller;
+  // String? urlcontroller;
   int _currentVideoIndex = 0;
   late VideoPlayerController _controller;
   List<String> _urls = [];
@@ -124,7 +124,16 @@ class _SpeechScreenState extends State<SpeechScreen> {
                     _urls.clear();
                     getDatafromFirebase();
                   },
-                  child: const Text("Click here to see video")),
+                  child: Container(padding: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(22),color: Constants.deafultcolor),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: const Text(textAlign: TextAlign.center,
+                        "Click here to see video",
+                        style: TextStyle(color: Constants.iconcolor),
+                      ),
+                    ),
+                  )),
             ),
           ],
         ),
@@ -160,7 +169,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
 
     for (int i = 0; i < _data.length; i++) {
       DocumentReference<Map<String, dynamic>> documentRef =
-      FirebaseFirestore.instance.collection('words').doc(_data[i]);
+          FirebaseFirestore.instance.collection('words').doc(_data[i]);
 
       DocumentSnapshot<Map<String, dynamic>> snapshot = await documentRef.get();
 
@@ -190,14 +199,14 @@ class _SpeechScreenState extends State<SpeechScreen> {
     });
   }
 
-
   void _videoPlayerListener() {
     if (_controller.value.position >= _controller.value.duration) {
       setState(() {
         if (_currentVideoIndex < _urls.length - 1) {
           _currentVideoIndex++;
           _controller.dispose();
-          _controller = VideoPlayerController.network(_urls[_currentVideoIndex]);
+          _controller =
+              VideoPlayerController.network(_urls[_currentVideoIndex]);
 
           _controller.initialize().then((_) {
             setState(() {
@@ -213,7 +222,6 @@ class _SpeechScreenState extends State<SpeechScreen> {
       });
     }
   }
-
 
   // void getDatafromFirebase() async {
   //   for (int i = 0; i < _data.length; i++) {
