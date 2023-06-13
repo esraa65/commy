@@ -1,11 +1,13 @@
 import 'package:commy/constants.dart';
 import 'package:commy/view/pages/welcomepage.dart';
+import 'package:commy/viewmodel/database/network/dio_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:splash_view/splash_view.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await DioHelper.init();
 
   await Firebase.initializeApp();
   runApp(MyApp());

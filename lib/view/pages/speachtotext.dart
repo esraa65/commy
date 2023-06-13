@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:commy/constants.dart';
@@ -126,9 +125,9 @@ class _SpeechScreenState extends State<SpeechScreen> {
                   },
                   child: Container(padding: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(22),color: Constants.deafultcolor),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: const Text(textAlign: TextAlign.center,
+                    child: const Padding(
+                      padding:  EdgeInsets.all(8.0),
+                      child:  Text(textAlign: TextAlign.center,
                         "Click here to see video",
                         style: TextStyle(color: Constants.iconcolor),
                       ),
