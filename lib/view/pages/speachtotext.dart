@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:commy/constants.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
   int _currentVideoIndex = 0;
   late VideoPlayerController _controller;
   List<String> _urls = [];
-  final _data = ["hi", "thank you", "finish", "good"];
+  final _data = ["welcome", "to", "your", "work"];
 
   @override
   void initState() {
@@ -91,19 +90,21 @@ class _SpeechScreenState extends State<SpeechScreen> {
       body: SingleChildScrollView(
         reverse: true,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-                padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
-                child: Text(_text,
-                    style: const TextStyle(
-                      fontSize: 32.0,
-                      color: Constants.textcolor,
-                      fontWeight: FontWeight.w400,
-                    ))),
+            Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: Text(_text,
+                  style: const TextStyle(
+                    fontSize: 32.0,
+                    color: Constants.textcolor,
+                    fontWeight: FontWeight.w400,
+                  )),
+            ),
             Container(
               color: Colors.transparent,
               width: double.infinity,
-              height: MediaQuery.of(context).size.height / 4,
+              height: MediaQuery.of(context).size.height / 2,
               child: Center(
                 child: _controller == VideoPlayerController.network("")
                     ? CircularProgressIndicator()
@@ -114,23 +115,22 @@ class _SpeechScreenState extends State<SpeechScreen> {
               ),
             ),
             Container(
-              color: Colors.transparent,
-              width: 300,
-              height: 100,
+              padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(22),
+                  color: Constants.deafultcolor),
               child: TextButton(
                   onPressed: () {
                     // Get data from docs and convert map to List
                     _urls.clear();
                     getDatafromFirebase();
                   },
-                  child: Container(padding: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(22),color: Constants.deafultcolor),
-                    child: const Padding(
-                      padding:  EdgeInsets.all(8.0),
-                      child:  Text(textAlign: TextAlign.center,
-                        "Click here to see video",
-                        style: TextStyle(color: Constants.iconcolor),
-                      ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      "Click here to see video",
+                      style: TextStyle(color: Constants.iconcolor),
                     ),
                   )),
             ),
