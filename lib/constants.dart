@@ -10,6 +10,7 @@ class Constants {
   static const textcolor = Color(0x73000000);
   static const deafultcolor= Color(0xff89b0ae);
   static const background = Color(0xffedf6f9);
+  static const buttonbackground = Color(0xffb3ccd5);
 
 
   //static const alertdialog = Color(0xFFBAE3DD);
