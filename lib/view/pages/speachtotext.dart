@@ -22,7 +22,6 @@ class _SpeechScreenState extends State<SpeechScreen> {
   int _currentVideoIndex = 0;
   late VideoPlayerController _controller;
   List<String> _urls = [];
-  final _data = ["welcome", "to", "your", "work"];
 
   @override
   void initState() {
@@ -113,10 +112,9 @@ class _SpeechScreenState extends State<SpeechScreen> {
                   } else {
                     setState(() => _isListening = false);
                     _speech.stop();
-                    myspeechcubit.sentance=_text;
+                    myspeechcubit.sentance = _text;
                     myspeechcubit.speechtotext();
                   }
-
                 },
                 backgroundColor: Constants.deafultcolor,
                 child: Icon(_isListening ? Icons.mic : Icons.mic_off,
@@ -156,10 +154,48 @@ class _SpeechScreenState extends State<SpeechScreen> {
                         borderRadius: BorderRadius.circular(22),
                         color: Constants.deafultcolor),
                     child: TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           // Get data from docs and convert map to List
                           _urls.clear();
-                          getDatafromFirebase();
+                          for (int i = 0;
+                              i <
+                                  myspeechcubit
+                                      .outputtext!.filteredText!.length;
+                              i++) {
+                            DocumentReference<Map<String, dynamic>>
+                                documentRef = FirebaseFirestore.instance
+                                    .collection('words')
+                                    .doc(myspeechcubit
+                                        .outputtext!.filteredText![i]);
+
+                            DocumentSnapshot<Map<String, dynamic>> snapshot =
+                                await documentRef.get();
+
+                            if (snapshot.exists) {
+                              String value = snapshot.get("link");
+                              _urls.add(value);
+                            } else {
+                              _urls.add("not found");
+                              print("Document not available");
+                            }
+
+                            print(_urls);
+                          }
+
+                          setState(() {
+                            _currentVideoIndex = 0;
+                            _controller.dispose();
+                            _controller = VideoPlayerController.network(
+                                _urls[_currentVideoIndex]);
+
+                            _controller.initialize().then((_) {
+                              setState(() {
+                                _controller.play();
+                              });
+                            });
+
+                            _controller.addListener(_videoPlayerListener);
+                          });
                         },
                         child: const Padding(
                           padding: EdgeInsets.all(8.0),
@@ -202,40 +238,40 @@ class _SpeechScreenState extends State<SpeechScreen> {
   //   }
   // }
 
-  void getDatafromFirebase() async {
-    _urls.clear();
-
-    for (int i = 0; i < _data.length; i++) {
-      DocumentReference<Map<String, dynamic>> documentRef =
-          FirebaseFirestore.instance.collection('words').doc(_data[i]);
-
-      DocumentSnapshot<Map<String, dynamic>> snapshot = await documentRef.get();
-
-      if (snapshot.exists) {
-        String value = snapshot.get("link");
-        _urls.add(value);
-      } else {
-        _urls.add("not found");
-        print("Document not available");
-      }
-
-      print(_urls);
-    }
-
-    setState(() {
-      _currentVideoIndex = 0;
-      _controller.dispose();
-      _controller = VideoPlayerController.network(_urls[_currentVideoIndex]);
-
-      _controller.initialize().then((_) {
-        setState(() {
-          _controller.play();
-        });
-      });
-
-      _controller.addListener(_videoPlayerListener);
-    });
-  }
+  // void getDatafromFirebase() async {
+  //   // _urls.clear();
+  //   //
+  //   // for (int i = 0; i < _data.length; i++) {
+  //   //   DocumentReference<Map<String, dynamic>> documentRef =
+  //   //       FirebaseFirestore.instance.collection('words').doc(_data[i]);
+  //   //
+  //   //   DocumentSnapshot<Map<String, dynamic>> snapshot = await documentRef.get();
+  //   //
+  //   //   if (snapshot.exists) {
+  //   //     String value = snapshot.get("link");
+  //   //     _urls.add(value);
+  //   //   } else {
+  //   //     _urls.add("not found");
+  //   //     print("Document not available");
+  //   //   }
+  //   //
+  //   //   print(_urls);
+  //   // }
+  //   //
+  //   // setState(() {
+  //   //   _currentVideoIndex = 0;
+  //   //   _controller.dispose();
+  //   //   _controller = VideoPlayerController.network(_urls[_currentVideoIndex]);
+  //   //
+  //   //   _controller.initialize().then((_) {
+  //   //     setState(() {
+  //   //       _controller.play();
+  //   //     });
+  //   //   });
+  //   //
+  //   //   _controller.addListener(_videoPlayerListener);
+  //   // });
+  // }
 
   void _videoPlayerListener() {
     if (_controller.value.position >= _controller.value.duration) {

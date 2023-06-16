@@ -19,7 +19,8 @@ class SpeechCubit extends Cubit<SpeechState> {
     } ).then((value) => {
       print(value.data),
         if(value.statusCode == 200){
-          print('successful ya bakii')
+          print('successful ya bakii'),
+          outputtext=OutputText.fromJson(value.data)
         }
     }) .catchError((erorr) {
       print(erorr);
