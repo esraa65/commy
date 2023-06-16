@@ -151,7 +151,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(22),
+                        borderRadius: BorderRadius.circular(30),
                         color: Constants.deafultcolor),
                     child: TextButton(
                         onPressed: () async {
