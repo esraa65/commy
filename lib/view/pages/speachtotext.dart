@@ -16,7 +16,7 @@ class SpeechScreen extends StatefulWidget {
 class _SpeechScreenState extends State<SpeechScreen> {
   late stt.SpeechToText _speech;
   bool _isListening = false;
-
+  String _text = 'press the microphone to start speaking';
   double _confidence = 1.0;
 
   int _currentVideoIndex = 0;
@@ -42,7 +42,6 @@ class _SpeechScreenState extends State<SpeechScreen> {
         },
         builder: (context, state) {
           SpeechCubit myspeechcubit = SpeechCubit.get(context);
-          myspeechcubit.sentance='press the microphone to start speaking';
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
@@ -104,8 +103,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
                       setState(() => _isListening = true);
                       _speech.listen(
                         onResult: (val) => setState(() {
-                          myspeechcubit.sentance = val.recognizedWords;
-                          myspeechcubit.speechtotext();
+                          _text = val.recognizedWords;
                           if (val.hasConfidenceRating && val.confidence > 0) {
                             _confidence = val.confidence;
                           }
@@ -115,6 +113,8 @@ class _SpeechScreenState extends State<SpeechScreen> {
                   } else {
                     setState(() => _isListening = false);
                     _speech.stop();
+                    myspeechcubit.sentance=_text;
+                    myspeechcubit.speechtotext();
                   }
 
                 },
@@ -130,7 +130,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(25.0),
-                    child: Text(myspeechcubit.sentance.toString(),
+                    child: Text(_text,
                         style: const TextStyle(
                           fontSize: 32.0,
                           color: Constants.textcolor,
@@ -180,26 +180,26 @@ class _SpeechScreenState extends State<SpeechScreen> {
   }
 
   void _listen() async {
-    // if (!_isListening) {
-    //   bool available = await _speech.initialize(
-    //     onStatus: (val) => print('onStatus: $val'),
-    //     onError: (val) => print('onError: $val'),
-    //   );
-    //   if (available) {
-    //     setState(() => _isListening = true);
-    //     _speech.listen(
-    //       onResult: (val) => setState(() {
-    //         _text = val.recognizedWords;
-    //         if (val.hasConfidenceRating && val.confidence > 0) {
-    //           _confidence = val.confidence;
-    //         }
-    //       }),
-    //     );
-    //   }
-    // } else {
-    //   setState(() => _isListening = false);
-    //   _speech.stop();
-    // }
+    if (!_isListening) {
+      bool available = await _speech.initialize(
+        onStatus: (val) => print('onStatus: $val'),
+        onError: (val) => print('onError: $val'),
+      );
+      if (available) {
+        setState(() => _isListening = true);
+        _speech.listen(
+          onResult: (val) => setState(() {
+            _text = val.recognizedWords;
+            if (val.hasConfidenceRating && val.confidence > 0) {
+              _confidence = val.confidence;
+            }
+          }),
+        );
+      }
+    } else {
+      setState(() => _isListening = false);
+      _speech.stop();
+    }
   }
 
   void getDatafromFirebase() async {
