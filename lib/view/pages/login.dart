@@ -18,14 +18,14 @@ class _LoginState extends State<Login> {
 
   final TextEditingController passwordcontroller = TextEditingController();
   var formkey = GlobalKey<FormState>();
-
+  bool isPassword = true;
   Future login() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailcontroller.text.trim(),
         password: passwordcontroller.text.trim());
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
-        return Auth();
+        return const Auth();
       },
     ));
   }
@@ -127,7 +127,7 @@ class _LoginState extends State<Login> {
                                 child: TextFormField(
                                   autofocus: true,
                                   keyboardType: TextInputType.text,
-                                  obscureText: true,
+                                  obscureText: isPassword,
                                   controller: passwordcontroller,
                                   validator: (PassCurrentValue) {
                                     var passNonNullValue =
@@ -140,10 +140,22 @@ class _LoginState extends State<Login> {
                                     return null;
                                   },
                                   decoration: InputDecoration(
-                                      suffixIcon: const Icon(
-                                        Icons.remove_red_eye_outlined,
-                                        color: Constants.iconcolor,
-                                      ),
+                                      suffixIcon: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              isPassword = !isPassword;
+                                              print("show password");
+                                            });
+                                          },
+                                          icon: isPassword
+                                              ? const Icon(
+                                            Icons.visibility_off,                                            color: Constants.iconcolor,
+                                                )
+                                              : const Icon(
+                                            Icons.remove_red_eye,
+
+                                            color: Constants.iconcolor,
+                                                )),
                                       hintText: "password",
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(

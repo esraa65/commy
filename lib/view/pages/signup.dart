@@ -19,7 +19,7 @@ class _SignupState extends State<Signup> {
 
   final TextEditingController repasswordcontroller = TextEditingController();
   var formkey=  GlobalKey<FormState>();
-
+  bool isPassword = true;
   final GlobalKey<FlutterPwValidatorState> validatorKey =
       GlobalKey<FlutterPwValidatorState>();
 
@@ -53,7 +53,6 @@ class _SignupState extends State<Signup> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -135,7 +134,7 @@ class _SignupState extends State<Signup> {
                                   borderRadius: BorderRadius.circular(12)),
                               child: TextFormField(
                                 autofocus: true,
-                                obscureText: true,
+                                obscureText: isPassword,
                                 controller: passwordcontroller,
                                 validator: (PassCurrentValue) {
                                   var passNonNullValue =
@@ -148,10 +147,22 @@ class _SignupState extends State<Signup> {
                                   return null;
                                 },
                                 decoration: InputDecoration(
-                                    suffixIcon: const Icon(
-                                      Icons.remove_red_eye_outlined,
-                                      color: Constants.iconcolor,
-                                    ),
+                                    suffixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            isPassword = !isPassword;
+                                            print("show password");
+                                          });
+                                        },
+                                        icon: isPassword
+                                            ? const Icon(
+                                          Icons.visibility_off,
+                                          color: Constants.iconcolor,
+                                        )
+                                            : const Icon(
+                                          Icons.remove_red_eye,
+                                          color: Constants.iconcolor,
+                                        )),
                                     hintText: "password",
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
@@ -175,7 +186,7 @@ class _SignupState extends State<Signup> {
                                 borderRadius: BorderRadius.circular(12)),
                             child: TextFormField(
                               autofocus: true,
-                              obscureText: true,
+                              obscureText: isPassword,
                               controller: repasswordcontroller,
                               validator: (PassCurrentValue) {
                                 var passNonNullValue = PassCurrentValue ?? "";
@@ -187,10 +198,22 @@ class _SignupState extends State<Signup> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                  suffixIcon: const Icon(
-                                    Icons.remove_red_eye_outlined,
-                                    color: Constants.iconcolor,
-                                  ),
+                                  suffixIcon: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          isPassword = !isPassword;
+                                          print("show password");
+                                        });
+                                      },
+                                      icon: isPassword
+                                          ? const Icon(
+                                        Icons.visibility_off,
+                                        color: Constants.iconcolor,
+                                      )
+                                          : const Icon(
+                                        Icons.remove_red_eye,
+                                        color: Constants.iconcolor,
+                                      )),
                                   hintText: "Re-enter password",
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(

@@ -15,7 +15,7 @@ class SpeechCubit extends Cubit<SpeechState> {
   SpeechCubit() : super(SpeechInitial());
   Future speechtotext()async{
   await  DioHelper.postData(url: speechEndPoint,data:{
-        "text": sentance,
+        "text": sentance?.toLowerCase(),
     } ).then((value) => {
       print(value.data),
         if(value.statusCode == 200){

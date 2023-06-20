@@ -148,73 +148,67 @@ class _SpeechScreenState extends State<SpeechScreen> {
                             ),
                     ),
                   ),
-                  myspeechcubit.outputtext?.filteredText != null
-                      ? Container(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: Constants.deafultcolor),
-                          child: TextButton(
-                              onPressed: () async {
-                                // Get data from docs and convert map to List
-                                if (myspeechcubit.outputtext?.filteredText !=
-                                    null) {
-                                  _urls.clear();
-                                  for (int i = 0;
-                                      i <
-                                          myspeechcubit
-                                              .outputtext!.filteredText!.length;
-                                      i++) {
-                                    DocumentReference<Map<String, dynamic>>
-                                        documentRef = FirebaseFirestore.instance
-                                            .collection('words')
-                                            .doc(myspeechcubit
-                                                .outputtext!.filteredText![i]);
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 3, horizontal: 3),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Constants.deafultcolor),
+                    child: TextButton(
+                        onPressed: () async {
+                          // Get data from docs and convert map to List
+                          if (myspeechcubit.outputtext?.filteredText != null) {
+                            _urls.clear();
+                            for (int i = 0;
+                                i <
+                                    myspeechcubit
+                                        .outputtext!.filteredText!.length;
+                                i++) {
+                              DocumentReference<Map<String, dynamic>>
+                                  documentRef = FirebaseFirestore.instance
+                                      .collection('words')
+                                      .doc(myspeechcubit
+                                          .outputtext!.filteredText![i]);
 
-                                    DocumentSnapshot<Map<String, dynamic>>
-                                        snapshot = await documentRef.get();
+                              DocumentSnapshot<Map<String, dynamic>> snapshot =
+                                  await documentRef.get();
 
-                                    if (snapshot.exists) {
-                                      String value = snapshot.get("link");
-                                      _urls.add(value);
-                                    } else {
-                                      _urls.add("not found");
-                                      print("Document not available");
-                                    }
+                              if (snapshot.exists) {
+                                String value = snapshot.get("link");
+                                _urls.add(value);
+                              } else {
+                                _urls.add("not found");
+                                print("Document not available");
+                              }
 
-                                    print(_urls);
-                                  }
+                              print(_urls);
+                            }
 
-                                  setState(() {
-                                    _currentVideoIndex = 0;
-                                    _controller.dispose();
-                                    _controller = VideoPlayerController.network(
-                                        _urls[_currentVideoIndex]);
+                            setState(() {
+                              _currentVideoIndex = 0;
+                              _controller.dispose();
+                              _controller = VideoPlayerController.network(
+                                  _urls[_currentVideoIndex]);
 
-                                    _controller.initialize().then((_) {
-                                      setState(() {
-                                        _controller.play();
-                                      });
-                                    });
+                              _controller.initialize().then((_) {
+                                setState(() {
+                                  _controller.play();
+                                });
+                              });
 
-                                    _controller
-                                        .addListener(_videoPlayerListener);
-                                  });
-                                } else {
-                                  null;
-                                }
-                              },
-                              child: const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text(
-                                  textAlign: TextAlign.center,
-                                  "Click here to see video",
-                                  style: TextStyle(color: Constants.iconcolor),
-                                ),
-                              )),
-                        )
-                      : SizedBox.shrink(),
+                              _controller.addListener(_videoPlayerListener);
+                            });
+                          } else{
+                            null;}
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(7.0),
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            "Click here to see video",
+                            style: TextStyle(color: Constants.iconcolor),
+                          ),
+                        )),
+                  ),
                 ],
               ),
             ),
